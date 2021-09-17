@@ -1,5 +1,8 @@
 package com;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
@@ -32,6 +35,14 @@ public class CoreApp {
             output+="}\n\n";
         }
         return output;
+    }
+
+    public static String buildJSON() {
+        GsonBuilder builder = new GsonBuilder();
+        builder.setPrettyPrinting();
+        Gson gson = builder.create();
+        String json = gson.toJson(policies);
+        return json;
     }
 
     public static void parseFile(File file) throws FileNotFoundException {

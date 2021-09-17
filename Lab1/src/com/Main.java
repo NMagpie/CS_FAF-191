@@ -63,7 +63,7 @@ public class Main extends Application{
 
                 if (fileSave != null) {
                     try (BufferedWriter bufferedWriter= Files.newBufferedWriter(fileSave.toPath(), StandardCharsets.UTF_8))
-                    { bufferedWriter.write(CoreApp.buildFile()); } catch (IOException e) {
+                    { bufferedWriter.write(CoreApp.buildJSON()); } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
