@@ -63,7 +63,7 @@ public class Main extends Application{
 
                 if (fileSave != null) {
                     try (BufferedWriter bufferedWriter= Files.newBufferedWriter(fileSave.toPath(), StandardCharsets.UTF_8))
-                    { bufferedWriter.write(CoreApp.buildJSON()); } catch (IOException e) {
+                    { bufferedWriter.write(CoreApp.buildFile()); } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
@@ -99,9 +99,9 @@ public class Main extends Application{
         Scene scene = new Scene(group);
         stage.setScene(scene);
         stage.setTitle("SBT App");
-        stage.setMinWidth(500);
+        stage.setMinWidth(450);
         stage.setResizable(false);
-        stage.setMinHeight(300);
+        stage.setMinHeight(100);
         stage.show();
     }
 
