@@ -24,7 +24,7 @@ public class CoreApp {
     public static String buildFile() {
         String output = "";
         for (HashMap<String,String> policy: policies.values()) {
-            output+="{\n";
+            output+="\n";
             output+="Item\t\t: "+policy.get("reg_item")+"\n\n";
             output+="Path\t\t: "+policy.get("reg_key")+"\n\n";
             output+="Type\t\t: "+policy.get("type")+"\n\n";
@@ -32,7 +32,7 @@ public class CoreApp {
                 if (!((attribute.equals("reg_item"))||(attribute.equals("reg_key"))||(attribute.equals("type"))))
                     output+=attribute+"\t: "+policy.get(attribute)+"\n\n";
             }
-            output+="}\n\n";
+            output+="////////////////////////////////////////////////////////////////////////////////////////////////////////\n\n";
         }
         return output;
     }
