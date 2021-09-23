@@ -34,7 +34,7 @@ public class Main extends Application{
         browse.setMinWidth(200);
         browse.setOnAction(eventBrowse -> {
                 FileChooser fileChooser = new FileChooser();
-                fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Audit Files", "*.audit"));
+                fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Audit or JSON files", "*.audit", "*.json")/*, new FileChooser.ExtensionFilter("JSON files","*.json")*/);
                 File file = fileChooser.showOpenDialog(null);
                 statusText.setText("File was imported successfully!");
 
@@ -42,14 +42,16 @@ public class Main extends Application{
                     path = file.getAbsolutePath();
 
                     try {
-                        CoreApp.parseFile(file);
+                        if (file.getName().matches(".*[.]audit"))
+                        CoreApp.parseFileObject(file);
+                        else CoreApp.parseJSONFile(file);
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
                     statusText.setText("File was parsed successfully!");
 
                 } else {
-                    System.out.println("File is not found!");
+                    //System.out.println("File is not found!");
                     statusText.setText("File is not found!");
                 }
             });
@@ -58,12 +60,12 @@ public class Main extends Application{
         save.setMinWidth(200);
         save.setOnAction(SaveEvent -> {
                 FileChooser fileChooserSave = new FileChooser();
-                fileChooserSave.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Audit Files","*.audit"));
+                fileChooserSave.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("JSON files","*.json"));
                 File fileSave = fileChooserSave.showSaveDialog(null);
 
                 if (fileSave != null) {
                     try (BufferedWriter bufferedWriter= Files.newBufferedWriter(fileSave.toPath(), StandardCharsets.UTF_8))
-                    { bufferedWriter.write(CoreApp.buildFile()); } catch (IOException e) {
+                    { bufferedWriter.write(CoreApp.buildJSONbyObject()); } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
