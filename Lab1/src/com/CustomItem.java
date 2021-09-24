@@ -7,110 +7,106 @@ import java.util.TreeMap;
 
 public class CustomItem {
 
-    private SimpleStringProperty type;
+    private String type;
 
-    private SimpleStringProperty regKey;
+    private String regKey;
 
-    private SimpleStringProperty regItem;
+    private String regItem;
 
-    private SimpleStringProperty regOption;
+    private String regOption;
 
-    private SimpleStringProperty valueType;
+    private String valueType;
 
-    private SimpleStringProperty valueData;
+    private String valueData;
 
-    private SimpleStringProperty reference;
+    private String reference;
 
-    private SimpleStringProperty description;
+    private String description;
 
-    private SimpleStringProperty info;
+    private String info;
 
-    private SimpleStringProperty solution;
+    private String solution;
 
-    private SimpleStringProperty seeAlso;
+    private String seeAlso;
 
     private TreeMap<String, String> otherAttributes;
 
     private CheckBox selected;
 
     public String getType() {
-        return type.get();
+        return type;
     }
 
     public void setType(String type) {
-        this.type = new SimpleStringProperty(type); }
+        this.type = type; }
 
     public String getRegKey() {
-        return regKey.get();
+        return regKey;
     }
 
-    public void setRegKey(String regKey) {
-        this.regKey = new SimpleStringProperty(regKey);
-    }
+    public void setRegKey(String regKey) { this.regKey = regKey; }
 
     public String getRegItem() {
-        return regItem.get();
+        return regItem;
     }
 
     public void setRegItem(String regItem) {
-        this.regItem = new SimpleStringProperty(regItem); }
+        this.regItem = regItem; }
 
     public String getRegOption() {
-        return regOption.get();
+        return regOption;
     }
 
-    public void setRegOption(String regOption) {
-        this.regOption = new SimpleStringProperty(regOption);
-    }
+    public void setRegOption(String regOption) { this.regOption = regOption; }
 
     public String getValueType() {
-        return valueType.get();
+        return valueType;
     }
 
     public void setValueType(String valueType) {
-        this.valueType = new SimpleStringProperty(valueType); }
+        this.valueType = valueType; }
 
     public String getValueData() {
-        return valueData.get();
+        return valueData;
     }
 
     public void setValueData(String valueData) {
-        this.valueData = new SimpleStringProperty(valueData); }
+        this.valueData = valueData; }
 
     public String getReference() {
-        return reference.get();
+        return reference;
     }
 
     public void setReference(String reference) {
-        this.reference = new SimpleStringProperty(reference); }
+        this.reference = reference; }
 
     public String getDescription() {
-        return description.get();
+        return description;
     }
 
     public void setDescription(String description) {
-        this.description = new SimpleStringProperty(description); }
+        this.description = description; }
 
     public String getInfo() {
-        return info.get();
+        return info;
     }
 
     public void setInfo(String info) {
-        this.info = new SimpleStringProperty(info); }
+        this.info = info; }
 
     public String getSolution() {
-        return solution.get();
+        return solution;
     }
 
     public void setSolution(String solution) {
-        this.solution = new SimpleStringProperty(solution); }
+        this.solution = solution; }
 
     public String getSeeAlso() {
-        return seeAlso.get();
+        return seeAlso;
     }
 
     public void setSeeAlso(String seeAlso) {
-        this.seeAlso = new SimpleStringProperty(seeAlso); }
+        this.seeAlso = seeAlso; }
 
     public TreeMap<String, String> getOtherAttributes() {
         return otherAttributes;
