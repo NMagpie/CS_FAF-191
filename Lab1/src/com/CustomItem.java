@@ -1,122 +1,116 @@
 package com;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.control.CheckBox;
+
 import java.util.TreeMap;
 
 public class CustomItem {
 
-    private String type;
+    private SimpleStringProperty type;
 
-    private String regKey;
+    private SimpleStringProperty regKey;
 
-    private String regItem;
+    private SimpleStringProperty regItem;
 
-    private String regOption;
+    private SimpleStringProperty regOption;
 
-    private String valueType;
+    private SimpleStringProperty valueType;
 
-    private String valueData;
+    private SimpleStringProperty valueData;
 
-    private String reference;
+    private SimpleStringProperty reference;
 
-    private String description;
+    private SimpleStringProperty description;
 
-    private String info;
+    private SimpleStringProperty info;
 
-    private String solution;
+    private SimpleStringProperty solution;
 
-    private String seeAlso;
+    private SimpleStringProperty seeAlso;
 
     private TreeMap<String, String> otherAttributes;
 
-    private boolean selected;
+    private CheckBox selected;
 
     public String getType() {
-        return type;
+        return type.get();
     }
 
     public void setType(String type) {
-        this.type = type;
-    }
+        this.type = new SimpleStringProperty(type); }
 
     public String getRegKey() {
-        return regKey;
+        return regKey.get();
     }
 
     public void setRegKey(String regKey) {
-        this.regKey = regKey;
+        this.regKey = new SimpleStringProperty(regKey);
     }
 
     public String getRegItem() {
-        return regItem;
+        return regItem.get();
     }
 
     public void setRegItem(String regItem) {
-        this.regItem = regItem;
-    }
+        this.regItem = new SimpleStringProperty(regItem); }
 
     public String getRegOption() {
-        return regOption;
+        return regOption.get();
     }
 
     public void setRegOption(String regOption) {
-        this.regOption = regOption;
+        this.regOption = new SimpleStringProperty(regOption);
     }
 
     public String getValueType() {
-        return valueType;
+        return valueType.get();
     }
 
     public void setValueType(String valueType) {
-        this.valueType = valueType;
-    }
+        this.valueType = new SimpleStringProperty(valueType); }
 
     public String getValueData() {
-        return valueData;
+        return valueData.get();
     }
 
     public void setValueData(String valueData) {
-        this.valueData = valueData;
-    }
+        this.valueData = new SimpleStringProperty(valueData); }
 
     public String getReference() {
-        return reference;
+        return reference.get();
     }
 
     public void setReference(String reference) {
-        this.reference = reference;
-    }
+        this.reference = new SimpleStringProperty(reference); }
 
     public String getDescription() {
-        return description;
+        return description.get();
     }
 
     public void setDescription(String description) {
-        this.description = description;
-    }
+        this.description = new SimpleStringProperty(description); }
 
     public String getInfo() {
-        return info;
+        return info.get();
     }
 
     public void setInfo(String info) {
-        this.info = info;
-    }
+        this.info = new SimpleStringProperty(info); }
 
     public String getSolution() {
-        return solution;
+        return solution.get();
     }
 
     public void setSolution(String solution) {
-        this.solution = solution;
-    }
+        this.solution = new SimpleStringProperty(solution); }
 
     public String getSeeAlso() {
-        return seeAlso;
+        return seeAlso.get();
     }
 
     public void setSeeAlso(String seeAlso) {
-        this.seeAlso = seeAlso;
-    }
+        this.seeAlso = new SimpleStringProperty(seeAlso); }
 
     public TreeMap<String, String> getOtherAttributes() {
         return otherAttributes;
@@ -130,13 +124,9 @@ public class CustomItem {
         this.otherAttributes.put(entry[0], entry[1]);
     }
 
-    public boolean isSelected() {
-        return selected;
-    }
+    public CheckBox getSelected() { return selected; }
 
-    public void setSelected(boolean selected) {
-        this.selected = selected;
-    }
+    public void setSelected(CheckBox selected) { this.selected = selected; }
 
     public CustomItem() {
          otherAttributes = new TreeMap<>();

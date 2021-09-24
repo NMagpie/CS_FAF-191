@@ -1,11 +1,15 @@
 package com;
 
 import javafx.application.Application;
-import javafx.geometry.Insets;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -19,7 +23,10 @@ import java.nio.file.Files;
 public class Main extends Application{
 
     String path;
-    static Label statusText = new Label();
+
+    TableView<CustomItem> table = new TableView<>();
+
+    static Label statusText = new Label("                ");
 
     public static void main(String[] args) throws FileNotFoundException {
         Application.launch(args);
@@ -28,7 +35,16 @@ public class Main extends Application{
     @Override
     public void start(Stage stage) {
 
-        GridPane gPane = new GridPane();
+        BorderPane mainPane = new BorderPane();
+
+        table.setMinWidth(700);
+
+        table.setTranslateY(15);
+
+        HBox hBox = new HBox();
+        hBox.setLayoutY(40);
+        hBox.setLayoutX(40);
+        hBox.setSpacing(20);
 
         Button browse = new Button("Browse...");
         browse.setMinWidth(200);
@@ -45,13 +61,15 @@ public class Main extends Application{
                         if (file.getName().matches(".*[.]audit"))
                         CoreApp.parseFileObject(file);
                         else CoreApp.parseJSONFile(file);
+
+                        updateTable();
+
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
                     statusText.setText("File was parsed successfully!");
 
                 } else {
-                    //System.out.println("File is not found!");
                     statusText.setText("File is not found!");
                 }
             });
@@ -73,38 +91,44 @@ public class Main extends Application{
                 statusText.setText("File was saved successfully!");
         });
 
-        gPane.add(browse,0,0);
+        hBox.getChildren().addAll(browse,save,statusText);
 
         browse.setMaxWidth(Double.MAX_VALUE);
         browse.setMaxHeight(Double.MAX_VALUE);
-        GridPane.setHgrow(browse, Priority.ALWAYS);
-        GridPane.setVgrow(browse, Priority.ALWAYS);
-        GridPane.setMargin(browse, new Insets(10));
-
-        gPane.add(save,1,0);
 
         save.setMaxWidth(Double.MAX_VALUE);
         save.setMaxHeight(Double.MAX_VALUE);
-        GridPane.setHgrow(save, Priority.ALWAYS);
-        GridPane.setVgrow(save, Priority.ALWAYS);
-        GridPane.setMargin(save, new Insets(10));
 
-        gPane.add(statusText,0,1);
         statusText.setMaxWidth(Double.MAX_VALUE);
         statusText.setMaxHeight(Double.MAX_VALUE);
-        GridPane.setHgrow(statusText, Priority.ALWAYS);
-        GridPane.setVgrow(statusText, Priority.ALWAYS);
-        GridPane.setMargin(statusText, new Insets(10));
 
-        Group group = new Group(gPane);
+        mainPane.setTop(hBox);
+
+        mainPane.setCenter(table);
+
+        Group group = new Group(mainPane);
 
         Scene scene = new Scene(group);
         stage.setScene(scene);
         stage.setTitle("SBT App");
-        stage.setMinWidth(450);
+        stage.setMinWidth(700);
         stage.setResizable(false);
-        stage.setMinHeight(100);
+        stage.setMinHeight(500);
         stage.show();
+    }
+
+    public void updateTable() {
+        ObservableList<CustomItem> observableList = FXCollections.observableArrayList(CoreApp.getCustomItems());
+        table = new TableView<>(observableList);
+
+        TableColumn<CustomItem,String> regKeyColumn = new TableColumn<>("Reg Key");
+        regKeyColumn.setCellValueFactory(new PropertyValueFactory<>("regKey"));
+        table.getColumns().add(regKeyColumn);
+
+        table.refresh();
+
+        table.setItems(observableList);
+
     }
 
 }

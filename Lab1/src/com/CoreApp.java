@@ -15,7 +15,11 @@ public class CoreApp {
 
     private static ArrayList<CustomItem> customItems = new ArrayList<>();
 
-/*    public static ArrayList<HashMap> getPoliciesArrayList() {
+    public static ArrayList<CustomItem> getCustomItems() {
+        return customItems;
+    }
+
+    /*    public static ArrayList<HashMap> getPoliciesArrayList() {
         if (policies!=null) return new ArrayList<>(policies.values());
         else return null;
     }
