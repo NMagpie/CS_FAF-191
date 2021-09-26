@@ -5,7 +5,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
@@ -174,8 +173,6 @@ public class Main extends Application{
 
     public void updateTable() {
 
-        table.getItems().clear();
-
         ObservableList<CustomItem> observableList = FXCollections.observableArrayList(CoreApp.getCustomItems());
 
         FilteredList<CustomItem> filteredItems = new FilteredList<>(observableList, b-> true);
@@ -205,6 +202,8 @@ public class Main extends Application{
         );
 
         SortedList<CustomItem> sortedList = new SortedList<>(filteredItems);
+
+        table.setItems(sortedList);
 
         sortedList.comparatorProperty().bind(table.comparatorProperty());
 
