@@ -67,6 +67,10 @@ public class CoreApp {
                             twoArguments[1]+=" "+line;
                         }
 
+                    if (twoArguments[1].startsWith("\"")) twoArguments[1]=twoArguments[1].substring(1);
+
+                    if (twoArguments[1].endsWith("\"")) twoArguments[1]=twoArguments[1].substring(0,twoArguments[1].length()-1);
+
                     switch (twoArguments[0]) {
                         case ("type"):
                             customItem.setType(twoArguments[1]);

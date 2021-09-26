@@ -3,6 +3,9 @@ package com;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
@@ -24,6 +27,8 @@ public class Main extends Application{
 
     static Label statusText = new Label("                ");
 
+    TextField searchBar = new TextField();
+
     public static void main(String[] args) throws FileNotFoundException {
         Application.launch(args);
     }
@@ -33,16 +38,25 @@ public class Main extends Application{
 
         BorderPane mainPane = new BorderPane();
 
+        searchBar.setPromptText("Search...");
+
+        table.setEditable(false);
+
         TableColumn<CustomItem, CheckBox> selectedColumn = new TableColumn<>("Selected");
         selectedColumn.setCellValueFactory(new PropertyValueFactory<>("selectedCB"));
+        selectedColumn.setStyle("-fx-alignment: CENTER;");
+        selectedColumn.setResizable(false);
+        selectedColumn.setMaxWidth(100);
         table.getColumns().add(selectedColumn);
 
         TableColumn<CustomItem,String> regKeyColumn = new TableColumn<>("Reg Key");
         regKeyColumn.setCellValueFactory(new PropertyValueFactory<>("regKey"));
+        regKeyColumn.setMinWidth(200);
         table.getColumns().add(regKeyColumn);
 
         TableColumn<CustomItem,String>  regItemColumn = new TableColumn<>("Reg Item");
         regItemColumn.setCellValueFactory(new PropertyValueFactory<>("regItem"));
+        regItemColumn.setMinWidth(200);
         table.getColumns().add(regItemColumn);
 
         TableColumn<CustomItem,String> typeColumn = new TableColumn<>("Type");
@@ -65,7 +79,7 @@ public class Main extends Application{
         referenceColumn.setCellValueFactory(new PropertyValueFactory<>("reference"));
         table.getColumns().add(referenceColumn);
 
-        table.setMinWidth(700);
+        table.setMinWidth(900);
 
         table.setTranslateY(15);
 
@@ -122,6 +136,9 @@ public class Main extends Application{
 
         CheckBox selectAll = new CheckBox("Select All");
 
+        selectAll.setTranslateY(3);
+        selectAll.setTranslateX(10);
+
         selectAll.setOnAction(event -> {
             if (CoreApp.getCustomItems()!=null)
                     for (CustomItem customItem: CoreApp.getCustomItems())
@@ -129,7 +146,7 @@ public class Main extends Application{
                         else {customItem.setSelected(false); customItem.setSelectedCB();}
         });
 
-        hBox.getChildren().addAll(selectAll,browse,save,statusText);
+        hBox.getChildren().addAll(selectAll,browse,save,searchBar,statusText);
 
         browse.setMaxWidth(Double.MAX_VALUE);
         browse.setMaxHeight(Double.MAX_VALUE);
@@ -149,7 +166,7 @@ public class Main extends Application{
         Scene scene = new Scene(group);
         stage.setScene(scene);
         stage.setTitle("SBT App");
-        stage.setMinWidth(700);
+        stage.setMinWidth(900);
         stage.setResizable(false);
         stage.setMinHeight(500);
         stage.show();
@@ -161,7 +178,37 @@ public class Main extends Application{
 
         ObservableList<CustomItem> observableList = FXCollections.observableArrayList(CoreApp.getCustomItems());
 
-        table.setItems(observableList);
+        FilteredList<CustomItem> filteredItems = new FilteredList<>(observableList, b-> true);
+
+        searchBar.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredItems.setPredicate(customItem -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (customItem.getRegKey()!=null&&customItem.getRegKey().toLowerCase().contains(lowerCaseFilter)) return true;
+                else if (customItem.getRegItem()!=null&&customItem.getRegItem().toLowerCase().contains(lowerCaseFilter)) { return true; }
+                else if (customItem.getType()!=null&&customItem.getType().toLowerCase().contains(lowerCaseFilter)) { return true; }
+                else if (customItem.getValueData()!=null&&customItem.getValueData().toLowerCase().contains(lowerCaseFilter)) { return true; }
+                else if (customItem.getValueType()!=null&&customItem.getValueType().toLowerCase().contains(lowerCaseFilter)) { return true; }
+                else if (customItem.getDescription()!=null&&customItem.getDescription().toLowerCase().contains(lowerCaseFilter)) { return true; }
+                else if (customItem.getInfo()!=null&&customItem.getInfo().toLowerCase().contains(lowerCaseFilter)) { return true; }
+                else if (customItem.getReference()!=null&&customItem.getReference().toLowerCase().contains(lowerCaseFilter)) { return true; }
+                else if (customItem.getRegOption()!=null&&customItem.getRegOption().toLowerCase().contains(lowerCaseFilter)) { return true; }
+                    else return false;
+
+                    }
+            );
+                }
+        );
+
+        SortedList<CustomItem> sortedList = new SortedList<>(filteredItems);
+
+        sortedList.comparatorProperty().bind(table.comparatorProperty());
+
+        table.setItems(sortedList);
     }
 
 }
