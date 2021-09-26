@@ -2,6 +2,7 @@ package com;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
 import java.io.File;
@@ -11,96 +12,33 @@ import java.util.*;
 
 public class CoreApp {
 
-//    private static HashMap<String,HashMap<String,String>> policies = new HashMap<>();
-
     private static ArrayList<CustomItem> customItems = new ArrayList<>();
 
     public static ArrayList<CustomItem> getCustomItems() {
         return customItems;
     }
 
-    /*    public static ArrayList<HashMap> getPoliciesArrayList() {
-        if (policies!=null) return new ArrayList<>(policies.values());
-        else return null;
-    }
-
-    public static HashMap<String, HashMap<String, String>> getPolicies() {
-        if (policies!=null) return policies;
-        else return null;
-    }*/
-
-/*    public static String buildJSON() {
+    public static void parseJSONFile(File file) throws FileNotFoundException {
         GsonBuilder builder = new GsonBuilder();
-        builder.setPrettyPrinting();
+        builder.excludeFieldsWithoutExposeAnnotation();
         Gson gson = builder.create();
-        String json = gson.toJson(policies);
-        return json;
-    }*/
-
-/*    public static void parseFile(File file) throws FileNotFoundException {
-
-        ArrayList<String> attributes = new ArrayList<>();
-
-        Scanner scanner = new Scanner(file);
-
-        HashMap<String,String> policy;
-
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-
-            if (line.matches("\\s*<custom_item>\\s*")){
-                line = scanner.nextLine();
-                policy = new HashMap<>();
-
-                while (!line.matches("\\s*</custom_item>\\s*"))
-                {
-                    line=line.trim();
-                    String[] twoArguments = line.split(" *: *",2);
-
-                    if (!attributes.contains(twoArguments[0]))
-                        attributes.add(twoArguments[0]);
-
-                    if (twoArguments[1].matches("^\".*[^\"]$"))
-                        while (!line.matches(".*\"$"))
-                        {
-                            line = scanner.nextLine();
-                            twoArguments[1]+=" "+line;
-                        }
-
-                    policy.put(twoArguments[0],twoArguments[1]);
-                    line = scanner.nextLine();
-                }
-
-                if ((policy.containsKey("reg_item"))&&(policy.containsKey("reg_key")))
-                    policies.put(policy.get("reg_item").substring(1,policy.get("reg_item").length()-1)+"_"+policy.get("reg_key").substring(1,policy.get("reg_key").length()-1),policy);
-            }
-        }
-
-        *//*for (String key : policies.keySet())
-            System.out.println(key+" "+policies.get(key)+"\n");
-
-        System.out.println("\n"+attributes);*//*
-
-        scanner.close();
-
-    }*/
+        JsonReader reader = new JsonReader(new FileReader(file));
+        customItems = gson.fromJson(reader, new TypeToken<ArrayList<CustomItem>>() {}.getType());
+        for (CustomItem customItem : customItems)
+            customItem.setSelectedCB();
+    }
 
     public static String buildJSONbyObject() {
         GsonBuilder builder = new GsonBuilder();
         builder.setPrettyPrinting();
+        builder.excludeFieldsWithoutExposeAnnotation();
         Gson gson = builder.create();
         return gson.toJson(customItems);
     }
 
-    public static void parseJSONFile(File file) throws FileNotFoundException {
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
-        JsonReader reader = new JsonReader(new FileReader(file));
-        customItems = gson.fromJson(reader,ArrayList.class);
-        //System.out.println(customItems);
-    }
-
     public static void parseFileObject(File file) throws FileNotFoundException {
+
+        customItems = new ArrayList<>();
 
         Scanner scanner = new Scanner(file);
 

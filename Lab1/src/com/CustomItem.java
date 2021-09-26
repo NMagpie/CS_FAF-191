@@ -1,37 +1,54 @@
 package com;
 
-import javafx.beans.property.SimpleStringProperty;
+import com.google.gson.annotations.Expose;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.CheckBox;
 
 import java.util.TreeMap;
 
 public class CustomItem {
 
+    @Expose
     private String type;
 
+    @Expose
     private String regKey;
 
+    @Expose
     private String regItem;
 
+    @Expose
     private String regOption;
 
+    @Expose
     private String valueType;
 
+    @Expose
     private String valueData;
 
+    @Expose
     private String reference;
 
+    @Expose
     private String description;
 
+    @Expose
     private String info;
 
+    @Expose
     private String solution;
 
+    @Expose
     private String seeAlso;
 
-    private TreeMap<String, String> otherAttributes;
+    @Expose
+    private TreeMap<String, String> otherAttributes = new TreeMap<>();
 
-    private CheckBox selected;
+    @Expose
+    private boolean selected;
+
+    private CheckBox selectedCB;
 
     public String getType() {
         return type;
@@ -120,12 +137,30 @@ public class CustomItem {
         this.otherAttributes.put(entry[0], entry[1]);
     }
 
-    public CheckBox getSelected() { return selected; }
+    public boolean getSelected() { return selected; }
 
-    public void setSelected(CheckBox selected) { this.selected = selected; }
+    public void setSelected(boolean selected) { this.selected = selected; }
+
+    public void setSelectedCB() {
+        this.selectedCB = new CheckBox();
+        selectedCB.setSelected(selected);
+    }
+
+    public CheckBox getSelectedCB() {
+        return selectedCB;
+    }
 
     public CustomItem() {
-         otherAttributes = new TreeMap<>();
+
+        this.selectedCB = new CheckBox();
+
+        selectedCB.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (selectedCB.isSelected()) selected=true; else selected=false;
+            }
+        });
+
     }
 
     @Override

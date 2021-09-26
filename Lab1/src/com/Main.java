@@ -3,10 +3,9 @@ package com;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -18,11 +17,10 @@ import javafx.scene.Group;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.ArrayList;
 
 
 public class Main extends Application{
-
-    String path;
 
     TableView<CustomItem> table = new TableView<>();
 
@@ -36,6 +34,38 @@ public class Main extends Application{
     public void start(Stage stage) {
 
         BorderPane mainPane = new BorderPane();
+
+        TableColumn<CustomItem, CheckBox> selectedColumn = new TableColumn<>("Selected");
+        selectedColumn.setCellValueFactory(new PropertyValueFactory<>("selectedCB"));
+        table.getColumns().add(selectedColumn);
+
+        TableColumn<CustomItem,String> regKeyColumn = new TableColumn<>("Reg Key");
+        regKeyColumn.setCellValueFactory(new PropertyValueFactory<>("regKey"));
+        table.getColumns().add(regKeyColumn);
+
+        TableColumn<CustomItem,String>  regItemColumn = new TableColumn<>("Reg Item");
+        regItemColumn.setCellValueFactory(new PropertyValueFactory<>("regItem"));
+        table.getColumns().add(regItemColumn);
+
+        TableColumn<CustomItem,String> typeColumn = new TableColumn<>("Type");
+        typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        table.getColumns().add(typeColumn);
+
+        TableColumn<CustomItem,String> regOptionColumn = new TableColumn<>("Reg option");
+        regOptionColumn.setCellValueFactory(new PropertyValueFactory<>("regOption"));
+        table.getColumns().add(regOptionColumn);
+
+        TableColumn<CustomItem,String> valueTypeColumn = new TableColumn<>("Value Type");
+        valueTypeColumn.setCellValueFactory(new PropertyValueFactory<>("valueType"));
+        table.getColumns().add(valueTypeColumn);
+
+        TableColumn<CustomItem,String> valueDataColumn = new TableColumn<>("Value Data");
+        valueDataColumn.setCellValueFactory(new PropertyValueFactory<>("valueData"));
+        table.getColumns().add(valueDataColumn);
+
+        TableColumn<CustomItem,String> referenceColumn = new TableColumn<>("Reference");
+        referenceColumn.setCellValueFactory(new PropertyValueFactory<>("reference"));
+        table.getColumns().add(referenceColumn);
 
         table.setMinWidth(700);
 
@@ -52,10 +82,9 @@ public class Main extends Application{
                 FileChooser fileChooser = new FileChooser();
                 fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Audit or JSON files", "*.audit", "*.json")/*, new FileChooser.ExtensionFilter("JSON files","*.json")*/);
                 File file = fileChooser.showOpenDialog(null);
-                statusText.setText("File was imported successfully!");
 
                 if (file != null) {
-                    path = file.getAbsolutePath();
+                    statusText.setText("File was imported successfully!");
 
                     try {
                         if (file.getName().matches(".*[.]audit"))
@@ -69,29 +98,39 @@ public class Main extends Application{
                     }
                     statusText.setText("File was parsed successfully!");
 
-                } else {
-                    statusText.setText("File is not found!");
                 }
             });
 
             Button save = new Button("Save...");
         save.setMinWidth(200);
-        save.setOnAction(SaveEvent -> {
-                FileChooser fileChooserSave = new FileChooser();
-                fileChooserSave.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("JSON files","*.json"));
-                File fileSave = fileChooserSave.showSaveDialog(null);
+        save.setOnAction(event -> {
+            FileChooser fileChooserSave = new FileChooser();
+            fileChooserSave.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("JSON files","*.json"));
+            File fileSave = fileChooserSave.showSaveDialog(null);
 
-                if (fileSave != null) {
-                    try (BufferedWriter bufferedWriter= Files.newBufferedWriter(fileSave.toPath(), StandardCharsets.UTF_8))
-                    { bufferedWriter.write(CoreApp.buildJSONbyObject()); } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+            if (fileSave != null) {
+                try (BufferedWriter bufferedWriter= Files.newBufferedWriter(fileSave.toPath(), StandardCharsets.UTF_8))
+                { bufferedWriter.write(CoreApp.buildJSONbyObject()); } catch (IOException e) {
+                    e.printStackTrace();
                 }
+            }
 
-                statusText.setText("File was saved successfully!");
+            statusText.setText("File was saved successfully!");
         });
 
-        hBox.getChildren().addAll(browse,save,statusText);
+        CheckBox selectAll = new CheckBox("Select All");
+
+        selectAll.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (CoreApp.getCustomItems()!=null)
+                        for (CustomItem customItem: CoreApp.getCustomItems())
+                            if (selectAll.isSelected()) {customItem.setSelected(true); customItem.setSelectedCB();}
+                            else {customItem.setSelected(false); customItem.setSelectedCB();}
+            }
+        });
+
+        hBox.getChildren().addAll(selectAll,browse,save,statusText);
 
         browse.setMaxWidth(Double.MAX_VALUE);
         browse.setMaxHeight(Double.MAX_VALUE);
@@ -118,17 +157,12 @@ public class Main extends Application{
     }
 
     public void updateTable() {
+
+        table.getItems().clear();
+
         ObservableList<CustomItem> observableList = FXCollections.observableArrayList(CoreApp.getCustomItems());
-        table = new TableView<>(observableList);
-
-        TableColumn<CustomItem,String> regKeyColumn = new TableColumn<>("Reg Key");
-        regKeyColumn.setCellValueFactory(new PropertyValueFactory<>("regKey"));
-        table.getColumns().add(regKeyColumn);
-
-        table.refresh();
 
         table.setItems(observableList);
-
     }
 
 }
