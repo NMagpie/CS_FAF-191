@@ -3,8 +3,6 @@ package com;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
@@ -17,7 +15,6 @@ import javafx.scene.Group;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.ArrayList;
 
 
 public class Main extends Application{
@@ -120,14 +117,11 @@ public class Main extends Application{
 
         CheckBox selectAll = new CheckBox("Select All");
 
-        selectAll.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if (CoreApp.getCustomItems()!=null)
-                        for (CustomItem customItem: CoreApp.getCustomItems())
-                            if (selectAll.isSelected()) {customItem.setSelected(true); customItem.setSelectedCB();}
-                            else {customItem.setSelected(false); customItem.setSelectedCB();}
-            }
+        selectAll.setOnAction(event -> {
+            if (CoreApp.getCustomItems()!=null)
+                    for (CustomItem customItem: CoreApp.getCustomItems())
+                        if (selectAll.isSelected()) {customItem.setSelected(true); customItem.setSelectedCB();}
+                        else {customItem.setSelected(false); customItem.setSelectedCB();}
         });
 
         hBox.getChildren().addAll(selectAll,browse,save,statusText);
