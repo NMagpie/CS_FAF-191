@@ -44,7 +44,6 @@ public class CustomItem {
     @Expose
     private TreeMap<String, String> otherAttributes = new TreeMap<>();
 
-    @Expose
     private boolean selected;
 
     private final CheckBox selectedCB;
@@ -150,6 +149,7 @@ public class CustomItem {
 
     public CustomItem() {
 
+        this.selected = false;
         this.selectedCB = new CheckBox();
 
         selectedCB.setOnAction(event -> selected= selectedCB.isSelected());

@@ -33,7 +33,12 @@ public class CoreApp {
         builder.setPrettyPrinting();
         builder.excludeFieldsWithoutExposeAnnotation();
         Gson gson = builder.create();
-        return gson.toJson(customItems);
+        ArrayList<CustomItem> selectedCustomItems = new ArrayList<>();
+
+        for (CustomItem customItem: customItems)
+            if (customItem.getSelected()) selectedCustomItems.add(customItem);
+
+        return gson.toJson(selectedCustomItems);
     }
 
     public static void parseFileObject(File file) throws FileNotFoundException {

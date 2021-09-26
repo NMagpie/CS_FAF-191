@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.Group;
 
+import javax.swing.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -107,12 +108,16 @@ public class Main extends Application{
 
             if (fileSave != null) {
                 try (BufferedWriter bufferedWriter= Files.newBufferedWriter(fileSave.toPath(), StandardCharsets.UTF_8))
-                { bufferedWriter.write(CoreApp.buildJSONbyObject()); } catch (IOException e) {
+                {
+                    String check = CoreApp.buildJSONbyObject();
+                    if ((check!=null)&&(!check.equals("[]"))) {
+                        bufferedWriter.write(CoreApp.buildJSONbyObject()); statusText.setText("File was saved successfully!"); }
+                    else JOptionPane.showMessageDialog(null, "No policies are selected!");
+                } catch (IOException e)
+                {
                     e.printStackTrace();
                 }
             }
-
-            statusText.setText("File was saved successfully!");
         });
 
         CheckBox selectAll = new CheckBox("Select All");
