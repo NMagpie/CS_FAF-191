@@ -5,13 +5,15 @@
 * Plotnicov Polina, FAF-193 
 
 ## Developed using:
-* Java version     11
-* JavaFX version   17.0.0.1
-* GSON version     2.8.8
+* Java version     `11`
+* JavaFX version   `17.0.0.1`
+* Jackson version  `2.12.5`
+* Lombok version   `1.18.22`
 
-## Launch:
+## Install and Launch:
+* Clone this repository
+  ```sh
+  git clone https://github.com/NMagpie/CS_FAF-19X.git
+  ```
 * Opening the project using any IDE supporting java
-* Launching the project
-## !! IMPORTANT !!
-
-### If there are problems about libraries - just install them in C:\JavaLibs\
+* Launching the project (main class is `main.Main`)

@@ -1,16 +1,22 @@
-package com;
+package core;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
+import customitem.CustomItem;
+import main.Controller;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
 
-public class CoreApp {
+import static main.Main.getController;
+
+public class Core {
+
+    private static Controller controller = getController();
 
     private static ArrayList<CustomItem> customItems = new ArrayList<>();
 
@@ -18,27 +24,30 @@ public class CoreApp {
         return customItems;
     }
 
-    public static void parseJSONFile(File file) throws FileNotFoundException {
-        GsonBuilder builder = new GsonBuilder();
-        builder.excludeFieldsWithoutExposeAnnotation();
-        Gson gson = builder.create();
-        JsonReader reader = new JsonReader(new FileReader(file));
-        customItems = gson.fromJson(reader, new TypeToken<ArrayList<CustomItem>>() {}.getType());
-        for (CustomItem customItem : customItems)
-            customItem.setSelectedCB();
+    public static void parseJSONFile(File file) {
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            CustomItem[] items = mapper.readValue(file, CustomItem[].class);
+            customItems = new ArrayList<>(Arrays.asList(items));
+        } catch (MismatchedInputException e) {
+            controller.setStatusText("Error while parsing JSON file!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
-    public static String buildJSONbyObject() {
-        GsonBuilder builder = new GsonBuilder();
-        builder.setPrettyPrinting();
-        builder.excludeFieldsWithoutExposeAnnotation();
-        Gson gson = builder.create();
+    public static ArrayList<CustomItem> selectedArrayList() {
+
         ArrayList<CustomItem> selectedCustomItems = new ArrayList<>();
 
-        for (CustomItem customItem: customItems)
-            if (customItem.getSelected()) selectedCustomItems.add(customItem);
+        for (CustomItem customItem : customItems)
+            if (customItem.isSelected()) selectedCustomItems.add(customItem);
 
-        return gson.toJson(selectedCustomItems);
+        return selectedCustomItems;
+
     }
 
     public static void parseFileObject(File file) throws FileNotFoundException {
@@ -50,26 +59,25 @@ public class CoreApp {
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
 
-            if (line.matches("\\s*<custom_item>\\s*")){
+            if (line.matches("\\s*<custom_item>\\s*")) {
                 line = scanner.nextLine();
 
                 CustomItem customItem = new CustomItem();
 
-                while (!line.matches("\\s*</custom_item>\\s*"))
-                {
-                    line=line.trim();
-                    String[] twoArguments = line.split(" *: *",2);
+                while (!line.matches("\\s*</custom_item>\\s*")) {
+                    line = line.trim();
+                    String[] twoArguments = line.split(" *: *", 2);
 
                     if (twoArguments[1].matches("^\".*[^\"]$"))
-                        while (!line.matches(".*\"$"))
-                        {
+                        while (!line.matches(".*\"$")) {
                             line = scanner.nextLine();
-                            twoArguments[1]+=" "+line;
+                            twoArguments[1] += " " + line;
                         }
 
-                    if (twoArguments[1].startsWith("\"")) twoArguments[1]=twoArguments[1].substring(1);
+                    if (twoArguments[1].startsWith("\"")) twoArguments[1] = twoArguments[1].substring(1);
 
-                    if (twoArguments[1].endsWith("\"")) twoArguments[1]=twoArguments[1].substring(0,twoArguments[1].length()-1);
+                    if (twoArguments[1].endsWith("\""))
+                        twoArguments[1] = twoArguments[1].substring(0, twoArguments[1].length() - 1);
 
                     switch (twoArguments[0]) {
                         case ("type"):
@@ -113,7 +121,7 @@ public class CoreApp {
                     line = scanner.nextLine();
                 }
 
-                if (customItem.hashCode()!=-1) customItems.add(customItem);
+                if (customItem.hashCode() != -1) customItems.add(customItem);
             }
         }
 
