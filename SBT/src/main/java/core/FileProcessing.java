@@ -3,8 +3,9 @@ package core;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import customitem.CustomItem;
-import main.Controller;
+import controllers.Controller;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -14,9 +15,9 @@ import java.util.Scanner;
 
 import static main.Main.getController;
 
-public class Core {
+public class FileProcessing {
 
-    private static Controller controller = getController();
+    private static final Controller controller = getController();
 
     private static ArrayList<CustomItem> customItems = new ArrayList<>();
 
@@ -25,6 +26,8 @@ public class Core {
     }
 
     public static void parseJSONFile(File file) {
+
+        CustomItem.resetSelItems();
 
         ObjectMapper mapper = new ObjectMapper();
 
@@ -46,11 +49,16 @@ public class Core {
         for (CustomItem customItem : customItems)
             if (customItem.isSelected()) selectedCustomItems.add(customItem);
 
+        if (selectedCustomItems.isEmpty())
+            JOptionPane.showMessageDialog(null, "No policies are selected!");
+
         return selectedCustomItems;
 
     }
 
     public static void parseFileObject(File file) throws FileNotFoundException {
+
+        CustomItem.resetSelItems();
 
         customItems = new ArrayList<>();
 
@@ -84,6 +92,12 @@ public class Core {
                             customItem.setType(twoArguments[1]);
                             break;
                         case ("reg_key"):
+/*                            if (twoArguments[1].startsWith("HKLM"))
+                            twoArguments[1] = twoArguments[1].replace("HKLM","HKEY_LOCAL_MACHINE");
+                            else if (twoArguments[1].startsWith("HKU"))
+                            twoArguments[1] = twoArguments[1].replace("HKU","HKEY_USERS");
+                            else if (twoArguments[1].startsWith("HKCU"))
+                            twoArguments[1] = twoArguments[1].replace("HKCU","HKEY_CURRENT_USER");*/
                             customItem.setRegKey(twoArguments[1]);
                             break;
                         case ("reg_item"):

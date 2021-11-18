@@ -6,10 +6,15 @@ module sbt {
     requires com.fasterxml.jackson.annotation;
     requires lombok;
     requires java.desktop;
+    requires java.prefs;
 
-    opens main to javafx.fxml;
-    opens core to com.fasterxml.jackson.databind;
-    opens customitem to com.fasterxml.jackson.databind, javafx.base;
+    opens core to com.fasterxml.jackson.databind, java.prefs;
+    opens customitem to com.fasterxml.jackson.databind;
+    opens controllers to javafx.fxml;
+    opens main to java.base, java.prefs, javafx.fxml;
 
+    exports controllers;
+    exports core.registryutils.registryitem;
     exports main;
+    exports customitem;
 }

@@ -1,17 +1,21 @@
-package main;
+package controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import core.Core;
+import core.FileProcessing;
+import core.registryutils.Registry;
+import core.registryutils.registryitem.Item;
 import customitem.CustomItem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import main.Main;
 
-import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,13 +33,47 @@ public class Controller {
 
     @FXML
     Button browse = new Button();
+
     @FXML
     Button save = new Button();
+
     @FXML
     CheckBox selectAll = new CheckBox();
 
+    @FXML
+    Button checkItems = new Button();
+
+    private Stage stageCheck = null;
+
+    private void initializeStageCheck() throws IOException {
+        stageCheck = new Stage();
+        Scene scene = new Scene(Main.getFxmlLoaderCheck().load());
+        stageCheck.setTitle("Check items");
+        stageCheck.setScene(scene);
+    }
+
+    public void setCheckItemsActive(boolean bool) { this.checkItems.setDisable(!bool); }
+
+    public boolean getCheckItemsActive() { return !this.checkItems.isDisabled(); }
+
     public void setStatusText(String string) {
         this.statusText.setText(string);
+    }
+
+    @FXML
+    protected void checkItemsPressed() throws IOException {
+
+        ArrayList<Item> items = Registry.checkItems();
+
+        if (items == null || items.isEmpty()) return;
+
+        if (stageCheck == null)
+            initializeStageCheck();
+
+        ControllerCheck controller = Main.getFxmlLoaderCheck().getController();
+        controller.setItemListView(items);
+
+        stageCheck.show();
     }
 
     @FXML
@@ -49,8 +87,8 @@ public class Controller {
             statusText.setText("File was imported successfully!");
 
             if (file.getName().matches(".*\\.audit$"))
-                Core.parseFileObject(file);
-            else Core.parseJSONFile(file);
+                FileProcessing.parseFileObject(file);
+            else FileProcessing.parseJSONFile(file);
 
             updateTable();
 
@@ -64,12 +102,9 @@ public class Controller {
 
         ObjectMapper mapper = new ObjectMapper();
 
-        ArrayList<CustomItem> items = Core.selectedArrayList();
+        ArrayList<CustomItem> items = FileProcessing.selectedArrayList();
 
-        if (items.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "No policies are selected!");
-            return;
-        }
+        if (items.isEmpty()) return;
 
         FileChooser fileChooserSave = new FileChooser();
         fileChooserSave.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("JSON files", "*.json"));
@@ -77,7 +112,7 @@ public class Controller {
 
         if (fileSave != null) {
 
-            mapper.writerWithDefaultPrettyPrinter().writeValue(fileSave, Core.selectedArrayList());
+            mapper.writerWithDefaultPrettyPrinter().writeValue(fileSave, items);
 
             statusText.setText("File was saved successfully!");
         }
@@ -85,20 +120,17 @@ public class Controller {
 
     @FXML
     protected void selectAllAction() {
-        if (Core.getCustomItems() != null)
-            for (CustomItem customItem : Core.getCustomItems())
-                if (selectAll.isSelected()) {
-                    customItem.setSelected(true);
-                    customItem.setSelectedCB();
-                } else {
-                    customItem.setSelected(false);
-                    customItem.setSelectedCB();
-                }
+        ArrayList<CustomItem> customItems = FileProcessing.getCustomItems();
+        boolean selected = selectAll.isSelected();
+        if (customItems != null)
+            for (CustomItem customItem : customItems)
+                if (selected != customItem.isSelected())
+                    customItem.fire();
     }
 
     private void updateTable() {
 
-        ObservableList<CustomItem> observableList = FXCollections.observableArrayList(Core.getCustomItems());
+        ObservableList<CustomItem> observableList = FXCollections.observableArrayList(FileProcessing.getCustomItems());
 
         FilteredList<CustomItem> filteredItems = new FilteredList<>(observableList, b -> true);
 

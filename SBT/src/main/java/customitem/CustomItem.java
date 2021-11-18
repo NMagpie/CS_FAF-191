@@ -6,12 +6,16 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javafx.scene.control.CheckBox;
 import lombok.Setter;
+import main.Main;
 
 import java.util.Objects;
 import java.util.TreeMap;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CustomItem {
+
+    @JsonIgnore
+    private static int selectedItems = 0;
 
     @JsonProperty("type")
     @Setter
@@ -160,7 +164,22 @@ public class CustomItem {
     private void createCheckBox() {
         selectedCB = new CheckBox();
         setSelectedCB();
-        selectedCB.setOnAction(event -> selected = selectedCB.isSelected());
+        selectedCB.setOnAction(event -> {
+            selected = selectedCB.isSelected();
+
+            if (selected) selectedItems++; else selectedItems--;
+
+            if (selectedItems > 0 && !Main.getController().getCheckItemsActive()) Main.getController().setCheckItemsActive(true);
+            if (selectedItems < 1 && Main.getController().getCheckItemsActive()) Main.getController().setCheckItemsActive(false);
+        });
+    }
+
+    public void fire() {
+        selectedCB.fire();
+    }
+
+    public static void resetSelItems() {
+        selectedItems = 0;
     }
 
     @Override
