@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javafx.scene.control.CheckBox;
-import lombok.Setter;
 import main.Main;
 
 import java.util.Objects;
@@ -18,55 +17,42 @@ public class CustomItem {
     private static int selectedItems = 0;
 
     @JsonProperty("type")
-    @Setter
     private String type;
 
     @JsonProperty("regKey")
-    @Setter
     private String regKey;
 
     @JsonProperty("regItem")
-    @Setter
     private String regItem;
 
     @JsonProperty("regOption")
-    @Setter
     private String regOption;
 
     @JsonProperty("valueType")
-    @Setter
     private String valueType;
 
     @JsonProperty("valueData")
-    @Setter
     private String valueData;
 
     @JsonProperty("reference")
-    @Setter
     private String reference;
 
     @JsonProperty("description")
-    @Setter
     private String description;
 
     @JsonProperty("info")
-    @Setter
     private String info;
 
     @JsonProperty("solution")
-    @Setter
     private String solution;
 
     @JsonProperty("seeAlso")
-    @Setter
     private String seeAlso;
 
     @JsonProperty("otherAttributes")
-    @Setter
     private TreeMap<String, String> otherAttributes = new TreeMap<>();
 
     @JsonIgnore
-    @Setter
     private boolean selected;
 
     @JsonIgnore
@@ -180,6 +166,62 @@ public class CustomItem {
 
     public static void resetSelItems() {
         selectedItems = 0;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setRegKey(String regKey) {
+        this.regKey = regKey;
+    }
+
+    public void setRegItem(String regItem) {
+        this.regItem = regItem;
+    }
+
+    public void setRegOption(String regOption) {
+        this.regOption = regOption;
+    }
+
+    public void setValueType(String valueType) {
+        this.valueType = valueType;
+    }
+
+    public void setValueData(String valueData) {
+        this.valueData = valueData;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
+    public void setSolution(String solution) {
+        this.solution = solution;
+    }
+
+    public void setSeeAlso(String seeAlso) {
+        this.seeAlso = seeAlso;
+    }
+
+    public void setOtherAttributes(TreeMap<String, String> otherAttributes) {
+        this.otherAttributes = otherAttributes;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    public void setSelectedCB(CheckBox selectedCB) {
+        this.selectedCB = selectedCB;
     }
 
     @Override

@@ -1,0 +1,11 @@
+controllers\ControllerCheck$1.class
+customitem\CustomItem.class
+main\Main.class
+module-info.class
+core\registryutils\Registry.class
+controllers\ControllerCheck.class
+core\registryutils\WinRegistry.class
+core\registryutils\registryitem\Status.class
+controllers\Controller.class
+core\registryutils\registryitem\Item.class
+core\FileProcessing.class

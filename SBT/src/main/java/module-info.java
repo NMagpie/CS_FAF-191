@@ -4,7 +4,6 @@ module sbt {
     requires com.fasterxml.jackson.databind;
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.annotation;
-    requires lombok;
     requires java.desktop;
     requires java.prefs;
 

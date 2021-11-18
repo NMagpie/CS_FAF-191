@@ -8,7 +8,6 @@
 * Java version     `11`
 * JavaFX version   `17.0.0.1`
 * Jackson version  `2.12.5`
-* Lombok version   `1.18.22`
 
 ## Install and Launch:
 * Clone this repository

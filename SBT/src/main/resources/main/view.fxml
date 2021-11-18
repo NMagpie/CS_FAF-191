@@ -70,7 +70,8 @@
    <bottom>
       <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <buttons>
-            <Button fx:id="checkItems" cancelButton="true" disable="true" mnemonicParsing="false" onAction="#checkItemsPressed" prefHeight="25.0" prefWidth="106.0" text="Check Selected" />
+            <Button fx:id="loadBackup" cancelButton="true" layoutX="622.0" layoutY="18.0" mnemonicParsing="false" onAction="#loadBackupPressed" prefHeight="25.0" prefWidth="150.0" text="Load backup registry" translateX="-15.0" />
+            <Button fx:id="checkItems" cancelButton="true" disable="true" maxWidth="106.0" minWidth="106.0" mnemonicParsing="false" onAction="#checkItemsPressed" prefHeight="25.0" prefWidth="106.0" text="Check Selected" translateX="-15.0" />
         </buttons>
       </ButtonBar>
    </bottom>

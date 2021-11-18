@@ -43,7 +43,22 @@ public class Controller {
     @FXML
     Button checkItems = new Button();
 
+    @FXML
+    Button loadBackup = new Button();
+
     private Stage stageCheck = null;
+
+    @FXML
+    public void loadBackupPressed() throws IOException {
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Registry items", "*.reg", "*.Reg"));
+        File file = fileChooser.showOpenDialog(null);
+
+        if (file != null) {
+            Runtime.getRuntime().exec("reg import "+ file.getAbsolutePath() + " /y");
+        }
+    }
 
     private void initializeStageCheck() throws IOException {
         stageCheck = new Stage();

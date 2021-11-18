@@ -1,28 +1,55 @@
 package controllers;
 
+import core.registryutils.Registry;
 import core.registryutils.registryitem.Item;
 import core.registryutils.registryitem.Status;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
-import lombok.SneakyThrows;
+import javafx.stage.FileChooser;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ControllerCheck {
 
     @FXML
-    BorderPane borderPane = new BorderPane();
+    private BorderPane borderPane = new BorderPane();
 
     @FXML
-    ListView<Item> itemListView = new ListView<>();
+    private ListView<Item> itemListView = new ListView<>();
+
+    @FXML
+    private Button processItemsButton = new Button();
+
+    @FXML
+    public void processItems() throws IOException {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Before processing Registry Items do you want to create backup of the registry? \nPress \"Cancel\" to refuse processing.", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+
+        alert.showAndWait();
+
+        if (alert.getResult() == ButtonType.YES) {
+            FileChooser fC = new FileChooser();
+            File file = fC.showSaveDialog(null);
+
+            Runtime.getRuntime().exec("reg export HKCR "+ file.getAbsolutePath() +"\\HKCR.Reg /y");
+            Runtime.getRuntime().exec("reg export HKCU "+ file.getAbsolutePath() +"\\HKCU.Reg /y");
+            Runtime.getRuntime().exec("reg export HKLM "+ file.getAbsolutePath() +"\\HKLM.Reg /y");
+            Runtime.getRuntime().exec("reg export HKCU "+ file.getAbsolutePath() +"\\HKCU.Reg /y");
+            Runtime.getRuntime().exec("reg export HKCC "+ file.getAbsolutePath() +"\\HKCC.Reg /y");
+
+            Registry.processItems();
+        }
+        if (alert.getResult() == ButtonType.NO)
+            Registry.processItems();
+    }
+
 
     public void setItemListView(ArrayList<Item> itemListView) {
 
@@ -31,7 +58,6 @@ public class ControllerCheck {
         this.itemListView.setItems(itemObservableList);
 
         this.itemListView.setCellFactory(param -> new ListCell<>() {
-            @SneakyThrows
             @Override
             protected void updateItem(Item item, boolean empty) {
                 super.updateItem(item, empty);
@@ -40,9 +66,13 @@ public class ControllerCheck {
 
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/viewItem.fxml"));
 
-                    AnchorPane root;
+                    AnchorPane root = null;
 
-                    root = loader.load();
+                    try {
+                        root = loader.load();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
                     setRootData(root, item);
 
