@@ -15,7 +15,7 @@
   git clone https://github.com/NMagpie/CS_FAF-19X.git
   ```
 * Opening the project using any IDE supporting java
-* Launching the project (main class is `main.Main`)
+* Launching the project (main class is `main.Run`)
 ### OR
 * Building jar file using `maven Install`
 * put `start.bat` and builded jar file located in `SBT/target/` (usually named like `SBT-1.0-SNAPSHOT.jar`) into the same directory and run `start.bat`
