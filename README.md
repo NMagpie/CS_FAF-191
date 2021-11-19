@@ -18,4 +18,4 @@
 * Launching the project (main class is `main.Main`)
 ### OR
 * Building jar file using `maven Install`
-* put `start.bat` and builded jar file into the same directory and run `start.bat`
+* put `start.bat` and builded jar file located in `SBT/target/` (usually named like `SBT-1.0-SNAPSHOT.jar`) into the same directory and run `start.bat`
