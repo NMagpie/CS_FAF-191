@@ -16,3 +16,6 @@
   ```
 * Opening the project using any IDE supporting java
 * Launching the project (main class is `main.Main`)
+### OR
+* Building jar file using `maven Install`
+* put `start.bat` and builded jar file into the same directory and run `start.bat`
