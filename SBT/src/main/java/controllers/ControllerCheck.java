@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -35,8 +36,8 @@ public class ControllerCheck {
         alert.showAndWait();
 
         if (alert.getResult() == ButtonType.YES) {
-            FileChooser fC = new FileChooser();
-            File file = fC.showSaveDialog(null);
+            DirectoryChooser dc = new DirectoryChooser();
+            File file = dc.showDialog(null);
 
             Runtime.getRuntime().exec("reg export HKCR "+ file.getAbsolutePath() +"\\HKCR.Reg /y");
             Runtime.getRuntime().exec("reg export HKCU "+ file.getAbsolutePath() +"\\HKCU.Reg /y");
@@ -105,7 +106,11 @@ public class ControllerCheck {
 
         label = (Label) root.getChildren().get(9);
 
-        label.setText(item.getStatus().toString());
+        str = item.getStatus().toString();
+
+        str = str.replaceAll("() ([A-Z])", "$1 $2");
+
+        label.setText(str);
 
         if (item.getStatus() == Status.Ok) label.setTextFill(Color.rgb(0, 229, 0)); else
             label.setTextFill(Color.rgb(235, 0, 0));
