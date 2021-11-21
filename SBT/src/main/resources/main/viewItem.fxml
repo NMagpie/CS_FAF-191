@@ -3,17 +3,17 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="159.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" >
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="159.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/17">
       <Label layoutX="19.0" layoutY="14.0" text="Path" />
       <Label layoutX="103.0" layoutY="14.0" prefHeight="17.0" prefWidth="450.0" />
 
       <Label layoutX="19.0" layoutY="41.0" text="Value Name" />
       <Label layoutX="103.0" layoutY="41.0" prefHeight="17.0" prefWidth="450.0" />
 
-      <Label layoutX="19.0" layoutY="68.0" text="Right Value" />
+      <Label layoutX="19.0" layoutY="68.0" text="Current Value" />
       <Label layoutX="103.0" layoutY="68.0" prefHeight="17.0" prefWidth="450.0" />
 
-      <Label layoutX="19.0" layoutY="95.0" text="Current Value" />
+      <Label layoutX="19.0" layoutY="95.0" text="Right Value" />
       <Label layoutX="103.0" layoutY="95.0" prefHeight="17.0" prefWidth="450.0" />
 
       <Label layoutX="19.0" layoutY="122.0" text="Status" />

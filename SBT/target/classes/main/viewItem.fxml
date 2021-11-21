@@ -10,10 +10,10 @@
       <Label layoutX="19.0" layoutY="41.0" text="Value Name" />
       <Label layoutX="103.0" layoutY="41.0" prefHeight="17.0" prefWidth="450.0" />
 
-      <Label layoutX="19.0" layoutY="68.0" text="Right Value" />
+      <Label layoutX="19.0" layoutY="68.0" text="Current Value" />
       <Label layoutX="103.0" layoutY="68.0" prefHeight="17.0" prefWidth="450.0" />
 
-      <Label layoutX="19.0" layoutY="95.0" text="Current Value" />
+      <Label layoutX="19.0" layoutY="95.0" text="Right Value" />
       <Label layoutX="103.0" layoutY="95.0" prefHeight="17.0" prefWidth="450.0" />
 
       <Label layoutX="19.0" layoutY="122.0" text="Status" />
