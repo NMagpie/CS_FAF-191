@@ -22,7 +22,7 @@ public class Main extends Application {
         return fxmlLoader.getController();
     }
 
-    public static void main(String[] args) throws IOException, InvocationTargetException, IllegalAccessException {
+    public static void main(String[] args) {
         launch();
     }
 

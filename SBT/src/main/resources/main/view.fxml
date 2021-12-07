@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import io.github.gleidson28.GNAvatarView?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.CheckBox?>
@@ -8,12 +9,13 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="498.0" prefWidth="718.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.Controller">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="498.0" prefWidth="787.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.Controller">
    <center>
-      <TableView fx:id="table" prefHeight="343.0" prefWidth="543.0" BorderPane.alignment="CENTER">
+      <TableView fx:id="table" prefHeight="419.0" prefWidth="736.0" BorderPane.alignment="CENTER">
         <columns>
           <TableColumn editable="false" prefWidth="75.0" resizable="false" style="-fx-alignment: CENTER;" text="Selected">
               <cellValueFactory>
@@ -59,19 +61,22 @@
       </TableView>
    </center>
    <top>
-       <HBox alignment="CENTER" prefHeight="39.0" prefWidth="600.0" spacing="10.0" BorderPane.alignment="CENTER">
-           <CheckBox fx:id="selectAll" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#selectAllAction" prefHeight="33.0" prefWidth="70.0" text="Select All" />
-           <Button fx:id="browse" mnemonicParsing="false" onAction="#browseFile" prefHeight="25.0" prefWidth="140.0" text="Browse..." textAlignment="CENTER" />
-           <Button fx:id="save" mnemonicParsing="false" onAction="#saveFile" prefHeight="25.0" prefWidth="140.0" text="Save..." textAlignment="CENTER" />
-           <TextField fx:id="searchBar" promptText="Search..." />
-           <Label fx:id="statusText" minHeight="-Infinity" minWidth="-Infinity" prefHeight="17.0" prefWidth="155.0" />
+       <HBox alignment="CENTER" prefHeight="48.0" prefWidth="787.0" spacing="10.0" BorderPane.alignment="CENTER">
+           <CheckBox fx:id="selectAll" maxHeight="30.0" minHeight="30.0" minWidth="-Infinity" mnemonicParsing="false" onAction="#selectAllAction" prefHeight="30.0" prefWidth="94.0" text="Select All" />
+           <Button fx:id="browse" maxHeight="30.0" minHeight="30.0" mnemonicParsing="false" onAction="#browseFile" prefHeight="30.0" prefWidth="140.0" text="Browse..." textAlignment="CENTER" />
+           <Button fx:id="save" maxHeight="30.0" minHeight="30.0" mnemonicParsing="false" onAction="#saveFile" prefHeight="30.0" prefWidth="140.0" text="Save..." textAlignment="CENTER" />
+           <TextField fx:id="searchBar" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" prefWidth="287.0" promptText="Search..." />
+           <GNAvatarView fx:id="avatar" onMouseClicked="#openUser" prefHeight="73.0" prefWidth="57.0" type="CIRCLE">
+               <Image url="@default-img.jpg" />
+           </GNAvatarView>
        </HBox>
    </top>
    <bottom>
       <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <buttons>
-            <Button fx:id="loadBackup" cancelButton="true" layoutX="622.0" layoutY="18.0" mnemonicParsing="false" onAction="#loadBackupPressed" prefHeight="25.0" prefWidth="150.0" text="Load backup registry" translateX="-15.0" />
-            <Button fx:id="checkItems" cancelButton="true" disable="true" maxWidth="106.0" minWidth="106.0" mnemonicParsing="false" onAction="#checkItemsPressed" prefHeight="25.0" prefWidth="106.0" text="Check Selected" translateX="-15.0" />
+              <Label fx:id="statusText" maxHeight="25.0" maxWidth="250.0" minHeight="25.0" minWidth="250.0" prefHeight="25.0" prefWidth="250.0" translateX="-250.0" />
+            <Button fx:id="loadBackup" cancelButton="true" layoutX="622.0" layoutY="18.0" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" mnemonicParsing="false" onAction="#loadBackupPressed" prefHeight="30.0" prefWidth="150.0" text="Load backup registry" translateX="-15.0" />
+            <Button fx:id="checkItems" cancelButton="true" disable="true" maxHeight="30.0" maxWidth="106.0" minHeight="30.0" minWidth="106.0" mnemonicParsing="false" onAction="#checkItemsPressed" prefHeight="30.0" prefWidth="106.0" text="Check Selected" translateX="-15.0" />
         </buttons>
       </ButtonBar>
    </bottom>

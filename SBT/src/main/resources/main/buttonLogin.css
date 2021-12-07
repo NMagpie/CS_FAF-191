@@ -1,0 +1,9 @@
+#buttonLogin {
+	-fx-background-color:  rgba(0,0,0,0.2);
+}
+#buttonLogin:hover {
+	-fx-background-color: rgba(0,0,0,0.1);
+}
+#buttonLogin:pressed {
+	-fx-background-color: rgba(0,0,0,0.2);
+}

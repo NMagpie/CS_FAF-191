@@ -5,18 +5,26 @@ import core.FileProcessing;
 import core.registryutils.Registry;
 import core.registryutils.registryitem.Item;
 import customitem.CustomItem;
+import io.github.gleidson28.GNAvatarView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Bounds;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import main.Main;
+import user.User;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -46,7 +54,53 @@ public class Controller {
     @FXML
     Button loadBackup = new Button();
 
+    @FXML
+    GNAvatarView avatar = new GNAvatarView();
+
+    public void setAvatar(String avatar) throws FileNotFoundException {
+        if (avatar.equals("src/main/resources/main/default-img.jpg"))
+            this.avatar.setImage(new Image(new FileInputStream(avatar)));
+        else
+            this.avatar.setImage(new Image(avatar));
+    }
+
     private Stage stageCheck = null;
+
+    private static final Stage stageLogin = new Stage();
+
+    private static final Stage stageUser = new Stage();
+
+    private static final ControllerUser controllerUser;
+
+    public static ControllerUser getControllerUser() {
+        return controllerUser;
+    }
+
+    @FXML
+    public void openUser() {
+        Bounds bounds = avatar.localToScreen(avatar.getBoundsInLocal());
+        if (stageLogin.isShowing() || stageUser.isShowing())
+            return;
+        if (User.isLoggedIn())
+        {
+            stageUser.setX(bounds.getCenterX() - 250);
+            stageUser.setY(bounds.getCenterY());
+            stageUser.show();
+        }
+        else
+        {
+            stageLogin.setX(bounds.getCenterX() - 250);
+            stageLogin.setY(bounds.getCenterY());
+            stageLogin.show();
+        }
+    }
+
+    public static void closeUser() {
+        if (stageUser.isShowing())
+            stageUser.hide();
+        if (stageLogin.isShowing())
+            stageLogin.hide();
+    }
 
     @FXML
     public void loadBackupPressed() throws IOException {
@@ -186,6 +240,33 @@ public class Controller {
         sortedList.comparatorProperty().bind(table.comparatorProperty());
 
         table.setItems(sortedList);
+    }
+
+    static {
+        FXMLLoader fxmlLogin = new FXMLLoader(Controller.class.getResource("/main/viewLogin.fxml"));
+
+        FXMLLoader fxmlUser = new FXMLLoader(Controller.class.getResource("/main/viewUser.fxml"));
+
+        Scene sceneLogin = null;
+
+        Scene sceneUser = null;
+
+        try {
+            sceneLogin = new Scene(fxmlLogin.load());
+            sceneUser = new Scene(fxmlUser.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        stageUser.initStyle(StageStyle.UNDECORATED);
+
+        stageLogin.initStyle(StageStyle.UNDECORATED);
+
+        stageLogin.setScene(sceneLogin);
+
+        stageUser.setScene(sceneUser);
+
+        controllerUser = fxmlUser.getController();
     }
 
 }

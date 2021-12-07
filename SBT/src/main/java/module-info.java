@@ -6,6 +6,9 @@ module sbt {
     requires com.fasterxml.jackson.annotation;
     requires java.desktop;
     requires java.prefs;
+    requires GNAvatarView;
+    requires json;
+    requires javafx.web;
 
     opens core to com.fasterxml.jackson.databind, java.prefs;
     opens customitem to com.fasterxml.jackson.databind;
