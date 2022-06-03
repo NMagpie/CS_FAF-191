@@ -4,6 +4,8 @@
 * Sorochin Nichita, FAF-191
 * Plotnicov Polina, FAF-193 
 
+## > Do not use it on your main Device / OS / Whatever... For educational purposes only!
+
 ## Developed using:
 * Java version     `11`
 * JavaFX version   `17.0.0.1`
