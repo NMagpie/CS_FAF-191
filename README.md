@@ -4,7 +4,7 @@
 * Sorochin Nichita, FAF-191
 * Plotnicov Polina, FAF-193 
 
-## > Do not use it on your main Device / OS / Whatever... For educational purposes only!
+> ## Do not use it on your main Device / OS / Whatever... For educational purposes only!
 
 ## Developed using:
 * Java version     `11`
