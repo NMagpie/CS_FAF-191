@@ -1,10 +1,10 @@
-# CS_FAF-191
-## This laboratory work for Cryptography and Security subject.
-## Made by: 
-* Sorochin Nichita, FAF-191
-* Plotnicov Polina, FAF-193 
+# Security Benchmarking Tool for Windows Registry
 
-> ## Do not use it on your main Device / OS / Whatever... For educational purposes only!
+## Made by: 
+* Sorochin Nichita
+* Plotnicov Polina
+
+> ## Do not use it on your main Device / OS / Whatever... For educational and demonstrational purposes only!
 
 ## Developed using:
 * Java version     `11`
