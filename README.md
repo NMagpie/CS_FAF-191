@@ -21,3 +21,6 @@
 ### OR
 * Building jar file using `maven Install`
 * put `start.bat` and builded jar file located in `SBT/target/` (usually named like `SBT-1.0-SNAPSHOT.jar`) into the same directory and run `start.bat`
+
+## Examples:
+ > There are two example files to test the application funcitonality which can be found in `Test_Audit` folder.
