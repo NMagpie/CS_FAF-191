@@ -14,7 +14,7 @@
 ## Install and Launch:
 * Clone this repository
   ```sh
-  git clone https://github.com/NMagpie/CS_FAF-19X.git
+  git clone https://github.com/NMagpie/SBT_Windows_Registry.git
   ```
 * Opening the project using any IDE supporting java
 * Launching the project (main class is `main.Run`)
